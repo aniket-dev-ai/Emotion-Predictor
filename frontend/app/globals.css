@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 0 0% 9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
+    --border: 0 0% 89.8%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --ring: 0 0% 9%;
+    --radius: 1rem;
+  }
+  .dark {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 98%;
+    --border: 0 0% 14%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --ring: 0 0% 83%;
+  }
+}
+
+@layer base {
+  * {
+    /* Replaced @apply border-border with standard CSS */
+    border-color: hsl(var(--border));
+  }
+  body {
+    /* Replaced @apply bg-background text-foreground with standard CSS */
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    @apply antialiased selection:bg-white/20;
+  }
+}
+
+/* Glassmorphism utility classes */
+.glass-panel {
+  @apply bg-white/5 backdrop-blur-xl shadow-lg;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .glass-panel {
+  @apply bg-black/40 backdrop-blur-xl shadow-2xl;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}

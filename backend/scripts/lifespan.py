@@ -1,12 +1,15 @@
-from fastapi import FastAPI 
+from fastapi import FastAPI
 from keras.models import load_model
 import pickle
 from contextlib import asynccontextmanager
+import easyocr
+import os
 
 dl_model = {}
 
 model_path = "Artifacts/BiGru_Model.keras"
 tokenizer_path = "Artifacts/tokenizer.pkl"
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -14,6 +17,13 @@ async def lifespan(app: FastAPI):
     dl_model["BiGRU"] = load_model(model_path)
     with open(tokenizer_path, "rb") as file:
         dl_model["tokenizer"] = pickle.load(file)
+    print("Loading OCR model...")
+    os.environ["OPENBLAS_NUM_THREADS"] = "1"
+    os.environ["OMP_NUM_THREADS"] = "1"
+    os.environ["MKL_NUM_THREADS"] = "1"
+    dl_model["OCR"] = easyocr.Reader(["en"], gpu=False)
+    
+    print("All models loaded successfully.")
     try:
         yield
     finally:
